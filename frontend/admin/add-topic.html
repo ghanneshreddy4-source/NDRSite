@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Topic - Admin</title>
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <style>
+    .form-card{
+      background:#fff;padding:20px;border-radius:12px;
+      max-width:500px;box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    }
+    input,textarea,select{
+      width:100%;margin-bottom:10px;padding:8px;
+      border-radius:8px;border:1px solid #ddd;
+    }
+    button{
+      padding:8px 14px;border:none;border-radius:8px;
+      background:#02a1ce;color:#fff;cursor:pointer;
+    }
+    #topicMsg{margin-top:10px;font-size:14px;}
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">ADMIN</div>
+    <nav class="sidebar-menu">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="add-course.html">Add Course</a>
+      <a href="add-topic.html" class="active">Add Topic</a>
+      <a href="add-test.html">Add Test</a>
+      <a href="approve-users.html">Approve Users</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="welcome">
+        <h2>Add Topic</h2>
+        <p>Add topics under a course</p>
+      </div>
+    </header>
+
+    <section class="form-card">
+      <input type="text" id="courseName" placeholder="Course Name (Ex: Snowflake)" required/>
+      <input type="text" id="topicTitle" placeholder="Topic Title (Ex: Introduction)" required/>
+      <input type="text" id="videoUrl" placeholder="Video URL (YouTube Embed Link)" required/>
+      <textarea id="description" placeholder="Topic Description"></textarea>
+
+      <button id="saveTopicBtn">Save Topic</button>
+      <div id="topicMsg"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const API_BASE = "http://localhost:5000/api";
+
+document.getElementById("saveTopicBtn").addEventListener("click", async () => {
+  const token = localStorage.getItem("ndr_token");
+  const msgEl = document.getElementById("topicMsg");
+
+  const payload = {
+    courseName: document.getElementById("courseName").value,
+    title: document.getElementById("topicTitle").value,
+    videoUrl: document.getElementById("videoUrl").value,
+    description: document.getElementById("description").value,
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/topic`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      credentials: "include",
+      body: JSON.stringify(payload)
+    });
+
+    const json = await res.json();
+    if (!res.ok) throw json;
+
+    msgEl.style.color = "green";
+    msgEl.textContent = "Topic added successfully!";
+  } catch(err) {
+    msgEl.style.color = "red";
+    msgEl.textContent = err.message || "Failed!";
+  }
+});
+</script>
+
+</body>
+</html>

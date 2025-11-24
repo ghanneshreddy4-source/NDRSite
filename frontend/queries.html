@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NDR WEB - Queries</title>
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/sidebar.css" />
+  <style>
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 100px);
+      max-width: 700px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #f5f7fb;
+    }
+    .msg {
+      max-width: 70%;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .msg.client {
+      background: #02a1ce;
+      color: #fff;
+      margin-left: auto;
+    }
+    .msg.admin {
+      background: #e2e8f0;
+      margin-right: auto;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ddd;
+    }
+    .chat-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+    }
+    .chat-input button {
+      border: none;
+      padding: 10px 15px;
+      background: #02a1ce;
+      color: #fff;
+      cursor: pointer;
+    }
+    .chat-header {
+      padding: 10px 15px;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+      background: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-logo">NDR WEB</div>
+      <nav class="sidebar-menu">
+        <a href="home.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="major-tests.html">Major Tests</a>
+        <a href="profile.html">Client Profile</a>
+        <a href="queries.html" class="active">Queries</a>
+        <a href="notifications.html">Notifications</a>
+        <a href="settings.html">Settings</a>
+        <a href="logout.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="welcome">
+          <h2>Queries</h2>
+          <p>Chat with Admin</p>
+        </div>
+      </header>
+
+      <section class="chat-container">
+        <div class="chat-header">Support Chat</div>
+        <div class="chat-messages" id="chatMessages">
+          <!-- Filled by queries.js -->
+        </div>
+        <div class="chat-input">
+          <input
+            type="text"
+            id="chatText"
+            placeholder="Type your query or reply..."
+          />
+          <button id="sendBtn">Send</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/queries.js"></script>
+</body>
+</html>

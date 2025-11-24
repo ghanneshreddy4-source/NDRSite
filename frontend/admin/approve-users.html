@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Approve Users - Admin</title>
+  <link rel="stylesheet" href="../assets/css/home.css"/>
+  <link rel="stylesheet" href="../assets/css/sidebar.css"/>
+  <style>
+    .user-card{
+      background:#fff;padding:12px;border-radius:8px;
+      margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05);
+      display:flex;justify-content:space-between;
+    }
+    button{
+      padding:6px 10px;background:green;color:#fff;border:none;
+      border-radius:6px;cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">ADMIN</div>
+    <nav class="sidebar-menu">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="add-course.html">Add Course</a>
+      <a href="add-topic.html">Add Topic</a>
+      <a href="add-test.html">Add Test</a>
+      <a href="approve-users.html" class="active">Approve Users</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <h2>Approve Clients</h2>
+    </header>
+
+    <section id="pendingUsers"></section>
+  </main>
+</div>
+
+<script>
+const API_BASE="http://localhost:5000/api";
+
+async function loadUsers(){
+  const token = localStorage.getItem("ndr_token");
+  const res = await fetch(`${API_BASE}/admin/pending-users`,{
+    headers:{Authorization:`Bearer ${token}`}
+  });
+  const users = await res.json();
+
+  const container = document.getElementById("pendingUsers");
+  container.innerHTML = "";
+
+  users.forEach(u=>{
+    const div=document.createElement("div");
+    div.className="user-card";
+    div.innerHTML=`
+      <span>${u.name} - ${u.email}</span>
+      <button onclick="approve('${u._id}')">Approve</button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+async function approve(id){
+  const token=localStorage.getItem("ndr_token");
+  await fetch(`${API_BASE}/admin/approve-user`,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({userId:id})
+  });
+  loadUsers();
+}
+
+document.addEventListener("DOMContentLoaded",loadUsers);
+</script>
+
+</body>
+</html>

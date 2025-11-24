@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snowflake Major Test</title>
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <style>
+    .test-container { background:#fff; padding:20px; margin-top:20px; border-radius:12px; }
+    .question { margin-bottom:20px; }
+    label { display:block; margin-bottom:6px; font-size:14px; cursor:pointer; }
+    .btn-submit { padding:10px 15px; background:#02a1ce; color:white; border:none; border-radius:8px; cursor:pointer; }
+    #result { margin-top:15px; font-weight:bold; }
+  </style>
+</head>
+
+<body>
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">NDR WEB</div>
+    <nav class="sidebar-menu">
+      <a href="../home.html">Home</a>
+      <a href="../courses.html">Courses</a>
+      <a href="../major-tests.html" class="active">Major Tests</a>
+      <a href="../profile.html">Client Profile</a>
+      <a href="../queries.html">Queries</a>
+      <a href="../notifications.html">Notifications</a>
+      <a href="../settings.html">Settings</a>
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <h2>Snowflake Major Test</h2>
+      <p>Complete test based on all modules</p>
+    </header>
+
+    <section class="test-container" id="testBox">
+      <div class="question" data-index="0">
+        <p><b>1. Snowflake uses which storage architecture?</b></p>
+        <label><input type="radio" name="q0" value="0" /> Row-based local storage</label>
+        <label><input type="radio" name="q0" value="1" /> Shared-disk + compute separation</label>
+        <label><input type="radio" name="q0" value="2" /> Pure on-prem storage</label>
+      </div>
+
+      <div class="question" data-index="1">
+        <p><b>2. Snowflake primarily supports which query language?</b></p>
+        <label><input type="radio" name="q1" value="0" /> Java</label>
+        <label><input type="radio" name="q1" value="1" /> Python</label>
+        <label><input type="radio" name="q1" value="2" /> SQL</label>
+      </div>
+
+      <div class="question" data-index="2">
+        <p><b>3. What is a Virtual Warehouse in Snowflake?</b></p>
+        <label><input type="radio" name="q2" value="0" /> Storage Layer</label>
+        <label><input type="radio" name="q2" value="1" /> Compute Engine</label>
+        <label><input type="radio" name="q2" value="2" /> API gateway</label>
+      </div>
+
+      <button class="btn-submit" onclick="submitMajorTest()">Submit Test</button>
+      <p id="result"></p>
+    </section>
+  </main>
+</div>
+
+<script>
+const correctAnswers = [1, 2, 1]; // Set correct MCQ answers
+
+function submitMajorTest() {
+  let score = 0;
+  correctAnswers.forEach((ans, idx) => {
+    const checked = document.querySelector(`input[name="q${idx}"]:checked`);
+    if (checked && Number(checked.value) === ans) score++;
+  });
+
+  document.getElementById("result").textContent = `Final Score: ${score}/${correctAnswers.length}`;
+}
+</script>
+
+<script src="../assets/js/sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SAP - Topic 1 Test</title>
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <style>
+    .test-container {
+      margin-top: 20px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .question { margin-bottom: 18px; }
+    .question p { margin-bottom: 6px; font-weight: 600; }
+    .options label { display:block; margin-bottom:4px; font-size:14px; cursor:pointer; }
+    .btn-submit { margin-top:10px;padding:8px 14px;border-radius:8px;background:#02a1ce;color:#fff;border:none;cursor:pointer;font-size:14px;}
+    #testResult { margin-top:10px;font-weight:bold; }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-logo">NDR WEB</div>
+      <nav class="sidebar-menu">
+        <a href="../home.html">Home</a>
+        <a href="../courses.html" class="active">Courses</a>
+        <a href="../major-tests.html">Major Tests</a>
+        <a href="../profile.html">Client Profile</a>
+        <a href="../queries.html">Queries</a>
+        <a href="../notifications.html">Notifications</a>
+        <a href="../settings.html">Settings</a>
+        <a href="../logout.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="welcome">
+          <h2>SAP - Topic 1 Test</h2>
+          <p>Introduction to SAP & ERP</p>
+        </div>
+      </header>
+
+      <section class="test-container">
+        <div class="question">
+          <p>1. SAP stands for:</p>
+          <div class="options">
+            <label><input type="radio" name="q0" value="0" /> Software Application Platform</label>
+            <label><input type="radio" name="q0" value="1" /> Systems, Applications and Products</label>
+            <label><input type="radio" name="q0" value="2" /> Simple Accounting Program</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>2. SAP is mainly used for:</p>
+          <div class="options">
+            <label><input type="radio" name="q1" value="0" /> Website hosting</label>
+            <label><input type="radio" name="q1" value="1" /> Enterprise Resource Planning</label>
+            <label><input type="radio" name="q1" value="2" /> Photo editing</label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>3. Some common SAP modules are:</p>
+          <div class="options">
+            <label><input type="radio" name="q2" value="0" /> Photoshop, Illustrator</label>
+            <label><input type="radio" name="q2" value="1" /> MM, SD, FI, CO</label>
+            <label><input type="radio" name="q2" value="2" /> React, Angular</label>
+          </div>
+        </div>
+
+        <button class="btn-submit" id="submitTestBtn">Submit Test</button>
+        <div id="testResult"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const correctSAP = [1, 1, 1];
+
+    document.getElementById("submitTestBtn").addEventListener("click", () => {
+      let score = 0;
+      correctSAP.forEach((ans, i) => {
+        const checked = document.querySelector(\`input[name="q\${i}"]:checked\`);
+        if (checked && Number(checked.value) === ans) score++;
+      });
+      const res = document.getElementById("testResult");
+      res.textContent = \`You scored \${score} / \${correctSAP.length}\`;
+      res.style.color = score === correctSAP.length ? "green" : "orange";
+    });
+  </script>
+
+  <script src="../assets/js/sidebar.js"></script>
+</body>
+</html>

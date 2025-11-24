@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NDR WEB - Notifications</title>
+  <link rel="stylesheet" href="assets/css/home.css" />
+  <link rel="stylesheet" href="assets/css/sidebar.css" />
+  <style>
+    .notif-list {
+      margin-top: 20px;
+      max-width: 700px;
+    }
+    .notif-item {
+      background: #fff;
+      padding: 12px 15px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      font-size: 14px;
+    }
+    .notif-item.unread {
+      border-left: 4px solid #02a1ce;
+    }
+    .notif-meta {
+      font-size: 11px;
+      color: #777;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-logo">NDR WEB</div>
+      <nav class="sidebar-menu">
+        <a href="home.html">Home</a>
+        <a href="courses.html">Courses</a>
+        <a href="major-tests.html">Major Tests</a>
+        <a href="profile.html">Client Profile</a>
+        <a href="queries.html">Queries</a>
+        <a href="notifications.html" class="active">Notifications</a>
+        <a href="settings.html">Settings</a>
+        <a href="logout.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="welcome">
+          <h2>Notifications</h2>
+          <p>Announcements, reminders, and updates</p>
+        </div>
+      </header>
+
+      <section class="notif-list" id="notifList">
+        <!-- Filled by notifications.js -->
+      </section>
+    </main>
+  </div>
+
+  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/notifications.js"></script>
+</body>
+</html>

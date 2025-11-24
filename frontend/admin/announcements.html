@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Announcements - Admin</title>
+  <link rel="stylesheet" href="../assets/css/home.css"/>
+  <link rel="stylesheet" href="../assets/css/sidebar.css"/>
+  <style>
+    .form-card{
+      background:#fff;padding:20px;border-radius:12px;max-width:600px;
+    }
+    input,textarea{
+      width:100%;padding:10px;margin-bottom:10px;
+      border:1px solid #ccc;border-radius:8px;
+    }
+    button{
+      padding:8px 14px;border:none;border-radius:8px;
+      background:#02a1ce;color:white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">ADMIN</div>
+    <nav class="sidebar-menu">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="add-course.html">Add Course</a>
+      <a href="add-topic.html">Add Topic</a>
+      <a href="add-test.html">Add Test</a>
+      <a href="approve-users.html">Approve Users</a>
+      <a href="announcements.html" class="active">Announcements</a>
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <h2>Post Announcement</h2>
+    </header>
+
+    <section class="form-card">
+      <textarea id="announceText" placeholder="Write announcement..."></textarea>
+      <button id="postBtn">Post</button>
+      <p id="announceMsg"></p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+const API_BASE="http://localhost:5000/api";
+document.getElementById("postBtn").addEventListener("click",async()=>{
+  const token=localStorage.getItem("ndr_token");
+  const text=document.getElementById("announceText").value;
+  const msgEl=document.getElementById("announceMsg");
+
+  try{
+    const res=await fetch(`${API_BASE}/admin/announcement`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:`Bearer ${token}`
+      },
+      body:JSON.stringify({message:text,type:"announcement"})
+    });
+    const json=await res.json();
+    if(!res.ok) throw json;
+
+    msgEl.style.color="green";
+    msgEl.textContent="Announcement posted!";
+  }catch(err){
+    msgEl.style.color="red";
+    msgEl.textContent=err.message;
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NDR WEB - Logout</title>
+</head>
+<body>
+  <p>Logging out...</p>
+  <script>
+    (async () => {
+      const token = localStorage.getItem("ndr_token");
+      await fetch("http://localhost:5000/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: { Authorization: token ? `Bearer ${token}` : "" }
+      });
+      localStorage.removeItem("ndr_token");
+      localStorage.removeItem("ndr_user_name");
+      localStorage.removeItem("ndr_user_role");
+      window.location.href = "login.html";
+    })();
+  </script>
+</body>
+</html>

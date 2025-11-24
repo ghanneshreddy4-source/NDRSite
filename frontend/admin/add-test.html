@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Test - Admin</title>
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <style>
+    .form-card{background:#fff;padding:20px;border-radius:12px;max-width:600px;}
+    input,textarea{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ccc;border-radius:8px;}
+    button{padding:10px;background:#02a1ce;border:none;border-radius:8px;color:#fff;}
+    .question-block{padding:10px;border:1px solid #ddd;margin-bottom:15px;border-radius:8px;}
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <aside class="sidebar">
+    <div class="sidebar-logo">ADMIN</div>
+    <nav class="sidebar-menu">
+      <a href="admin-dashboard.html">Dashboard</a>
+      <a href="add-course.html">Add Course</a>
+      <a href="add-topic.html">Add Topic</a>
+      <a href="add-test.html" class="active">Add Test</a>
+      <a href="approve-users.html">Approve Users</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="../logout.html">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="welcome">
+        <h2>Add Test</h2>
+        <p>Add MCQ test under a topic</p>
+      </div>
+    </header>
+
+    <section class="form-card">
+      <input type="text" id="courseName" placeholder="Course Name Ex: Snowflake"/>
+      <input type="text" id="topicTitle" placeholder="Topic Title Ex: Topic 1"/>
+      <div id="questions"></div>
+
+      <button onclick="addQuestion()">+ Add Question</button>
+      <br/><br/>
+      <button id="saveTestBtn">Save Test</button>
+      <p id="testMsg"></p>
+    </section>
+  </main>
+</div>
+
+<script>
+let questions = [];
+
+function addQuestion(){
+  const index = questions.length;
+  questions.push({});
+
+  const container = document.createElement("div");
+  container.className = "question-block";
+  container.innerHTML = `
+    <input type="text" placeholder="Question" onchange="questions[${index}].question=this.value"/>
+    <input type="text" placeholder="Option 1" onchange="questions[${index}].opt1=this.value"/>
+    <input type="text" placeholder="Option 2" onchange="questions[${index}].opt2=this.value"/>
+    <input type="text" placeholder="Option 3" onchange="questions[${index}].opt3=this.value"/>
+    <input type="text" placeholder="Option 4" onchange="questions[${index}].opt4=this.value"/>
+    <input type="number" placeholder="Correct Option Index (0-3)" onchange="questions[${index}].correctIndex=this.value"/>
+  `;
+
+  document.getElementById("questions").appendChild(container);
+}
+
+document.getElementById("saveTestBtn").addEventListener("click", async () => {
+  const token = localStorage.getItem("ndr_token");
+  const msgEl = document.getElementById("testMsg");
+
+  const payload = {
+    courseName: document.getElementById("courseName").value,
+    topicTitle: document.getElementById("topicTitle").value,
+    questions
+  };
+
+  try {
+    const res = await fetch("http://localhost:5000/api/admin/test", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        Authorization:`Bearer ${token}`
+      },
+      credentials:"include",
+      body:JSON.stringify(payload)
+    });
+
+    const json = await res.json();
+    if(!res.ok) throw json;
+
+    msgEl.style.color="green";
+    msgEl.textContent="Test added successfully!";
+  } catch(err){
+    msgEl.style.color="red";
+    msgEl.textContent=err.message;
+  }
+});
+</script>
+
+</body>
+</html>

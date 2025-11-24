@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Course - Admin</title>
+  <link rel="stylesheet" href="../assets/css/home.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <style>
+    .form-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .form-card input,
+    .form-card textarea {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .form-card button {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      background: #02a1ce;
+      color: #fff;
+      cursor: pointer;
+    }
+    #courseMsg {
+      margin-top: 8px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-wrapper">
+    <aside class="sidebar">
+      <div class="sidebar-logo">ADMIN</div>
+      <nav class="sidebar-menu">
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="add-course.html" class="active">Add Course</a>
+        <a href="add-topic.html">Add Topic</a>
+        <a href="add-test.html">Add Test</a>
+        <a href="approve-users.html">Approve Users</a>
+        <a href="announcements.html">Announcements</a>
+        <a href="../logout.html">Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="welcome">
+          <h2>Add Course</h2>
+        </div>
+      </header>
+
+      <section class="form-card">
+        <input type="text" id="courseName" placeholder="Course Name (Snowflake, SAP...)" />
+        <input type="text" id="courseCategory" placeholder="Category (optional)" />
+        <textarea id="courseDesc" rows="3" placeholder="Description"></textarea>
+        <button id="saveCourseBtn">Save Course</button>
+        <div id="courseMsg"></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:5000/api";
+    document.getElementById("saveCourseBtn").addEventListener("click", async () => {
+      const token = localStorage.getItem("ndr_token");
+      const name = document.getElementById("courseName").value;
+      const category = document.getElementById("courseCategory").value;
+      const description = document.getElementById("courseDesc").value;
+      const msgEl = document.getElementById("courseMsg");
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/course`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          credentials: "include",
+          body: JSON.stringify({ name, category, description })
+        });
+        const json = await res.json();
+        if (!res.ok) throw json;
+
+        msgEl.style.color = "green";
+        msgEl.textContent = "Course added.";
+      } catch (err) {
+        msgEl.style.color = "red";
+        msgEl.textContent = err.message || "Failed.";
+      }
+    });
+  </script>
+</body>
+</html>
